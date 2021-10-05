@@ -1,1 +1,1 @@
-# Semestralna-praca-AI-Anomalie-
+# Semestralna-praca-AI-Anomalie
