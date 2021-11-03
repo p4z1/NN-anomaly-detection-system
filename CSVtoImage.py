@@ -127,30 +127,44 @@ def createPixel(CSVfile,row):
     elif flowDuration < 0:
         flowDuration = 0
     flowDuration = decToBinSplit(flowDuration)
-    return [(flowDuration[0],flowDuration[1],flagValue),(port[0],port[1],packetSizeAverValue)]
+    return (flowDuration[0],flowDuration[1],flagValue),(port[0],port[1],packetSizeAverValue)
 
-def createPictures(CSVfile, width, height, flowNumber):
+def createPictures(CSVfile, width, height, flowNumber, imageNumber):
     pixels = []
+    pixelRow = []
+    numberOfPixels = 0
     label = 0
     anomaly = False
     for i in range(width*int(height//2)):
-        flowRow = (flowNumber*width*height)+i
+        flowRow = (flowNumber*width*height//4)+i
         if flowRow < len(CSVfile.index):
-            pixels.append(createPixel(CSVfile,flowRow))
+            pixel1, pixel2 = createPixel(CSVfile,flowRow)
             if anomaly:
                 label = 1
             elif CSVfile["Label"].values[flowRow] != "Benign":
                 anomaly = True
         else:
-            pixels.append([(0,0,0),(0,0,0)])
+            pixel1, pixel2 = (0,0,0),(0,0,0)
+        for i in range(4):
+                pixelRow.append(pixel1)
+                numberOfPixels +=1
+        for i in range(4):
+            pixelRow.append(pixel2)
+            numberOfPixels +=1
+        if numberOfPixels == 224:
+            numberOfPixels = 0
+            for i in range(4):
+                pixels.append(pixelRow)
+            pixelRow = []
+        
     array = np.array(pixels, dtype=np.uint8)
-    array = np.reshape(array,(height,width,3))
+    array = np.reshape(array,(height*4,width*4,3))
     
     new_image = Image.fromarray(array)
-    file = "./Images/Anomaly"+str(flowNumber)+".png"
+    file = "./Images/Anomaly"+str(imageNumber)+".png"
     new_image = new_image.save(file)
 
-    labels = ["Anomaly"+str(flowNumber)+".png",label]
+    labels = ["Anomaly"+str(imageNumber)+".png",label]
     print(file + " ==> "+str(label))    
     
     return labels
@@ -169,20 +183,27 @@ def csvSorting(df):
 #-------------------------Main------------------------
 #-----------------------------------------------------
 
-def main():
-    args = parserCheck()
-    labels = []
-    df = pd.read_csv(r'./Datasets/FTPandSSHBruteforce.csv')
-    dfSorted = csvSorting(df)
-    numberOfFlows = len(dfSorted.index)
-    pictureWidth = 20
-    pictureHeight = 30
-
-    for i in range(50):
-    #for i in range((numberOfFlows//(pictureWidth*pictureHeight))+1):
-        labels.append(createPictures(dfSorted,pictureWidth,pictureHeight,i))
-    print(labels)
-    createLabelBin(labels)
+def getFileList(path):
+    return os.listdir(path)
     
+
+def main():
+    #args = parserCheck()
+    rootPath = './Datasets/'
+    imageNumber = 0
+    labels = []
+    pictureWidth = 56
+    pictureHeight = 56
+    csvFiles = getFileList(rootPath)
+    for file in csvFiles:
+        df = pd.read_csv(rootPath+file)
+        print("[+] ==> "+ rootPath+file)
+        dfSorted = csvSorting(df)
+        numberOfFlows = len(dfSorted.index)  
+        for i in range((4*(numberOfFlows)//(pictureWidth*pictureHeight))+1):
+            labels.append(createPictures(dfSorted,pictureWidth,pictureHeight,i,imageNumber))
+            imageNumber += 1
+    createLabelBin(labels)
+
 if __name__ == "__main__":
     main()
