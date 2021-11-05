@@ -1,0 +1,471 @@
+<?xml version="1.0" ?>
+<mapping>
+	<map>
+		<framework name="400" out_port_id="400"/>
+		<IR name="Add_55" out_port_id="2" id="146"/>
+	</map>
+	<map>
+		<framework name="567" out_port_id="567"/>
+		<IR name="567/Output_0/Data__const" out_port_id="1" id="161"/>
+	</map>
+	<map>
+		<framework name="534" out_port_id="534"/>
+		<IR name="1243612439_const" out_port_id="1" id="107"/>
+	</map>
+	<map>
+		<framework name="554" out_port_id="554"/>
+		<IR name="Conv_54" out_port_id="2" id="145"/>
+	</map>
+	<map>
+		<framework name="576" out_port_id="576"/>
+		<IR name="576/Output_0/Data__const" out_port_id="1" id="176"/>
+	</map>
+	<map>
+		<framework name="379" out_port_id="379"/>
+		<IR name="Clip_41" out_port_id="1" id="111"/>
+	</map>
+	<map>
+		<framework name="582" out_port_id="582"/>
+		<IR name="582/Output_0/Data__const" out_port_id="1" id="186"/>
+	</map>
+	<map>
+		<framework name="440" out_port_id="440"/>
+		<IR name="Clip_81" out_port_id="1" id="214"/>
+	</map>
+	<map>
+		<framework name="594" out_port_id="594"/>
+		<IR name="594/Output_0/Data__const" out_port_id="1" id="205"/>
+	</map>
+	<map>
+		<framework name="342" out_port_id="342"/>
+		<IR name="Clip_17" out_port_id="1" id="48"/>
+	</map>
+	<map>
+		<framework name="597" out_port_id="597"/>
+		<IR name="1240412407_const" out_port_id="1" id="210"/>
+	</map>
+	<map>
+		<framework name="510" out_port_id="510"/>
+		<IR name="510/Output_0/Data__const" out_port_id="1" id="68"/>
+	</map>
+	<map>
+		<framework name="618" out_port_id="618"/>
+		<IR name="618/Output_0/Data__const" out_port_id="1" id="245"/>
+	</map>
+	<map>
+		<framework name="339" out_port_id="339"/>
+		<IR name="Add_15" out_port_id="2" id="43"/>
+	</map>
+	<map>
+		<framework name="320" out_port_id="320"/>
+		<IR name="Clip_3" out_port_id="1" id="10"/>
+	</map>
+	<map>
+		<framework name="437" out_port_id="437"/>
+		<IR name="Clip_79" out_port_id="1" id="209"/>
+	</map>
+	<map>
+		<framework name="546" out_port_id="546"/>
+		<IR name="546/Output_0/Data__const" out_port_id="1" id="127"/>
+	</map>
+	<map>
+		<framework name="429" out_port_id="429"/>
+		<IR name="Clip_74" out_port_id="1" id="195"/>
+	</map>
+	<map>
+		<framework name="449" out_port_id="449"/>
+		<IR name="Clip_87" out_port_id="1" id="229"/>
+	</map>
+	<map>
+		<framework name="391" out_port_id="391"/>
+		<IR name="Add_49" out_port_id="2" id="131"/>
+	</map>
+	<map>
+		<framework name="325" out_port_id="325"/>
+		<IR name="Clip_6" out_port_id="1" id="19"/>
+	</map>
+	<map>
+		<framework name="345" out_port_id="345"/>
+		<IR name="Clip_19" out_port_id="1" id="53"/>
+	</map>
+	<map>
+		<framework name="365" out_port_id="365"/>
+		<IR name="Add_32" out_port_id="2" id="87"/>
+	</map>
+	<map>
+		<framework name="426" out_port_id="426"/>
+		<IR name="Add_72" out_port_id="2" id="190"/>
+	</map>
+	<map>
+		<framework name="465" out_port_id="465"/>
+		<IR name="Flatten_98/Reshape" out_port_id="2" id="269"/>
+	</map>
+	<map>
+		<framework name="486" out_port_id="486"/>
+		<IR name="486/Output_0/Data__const" out_port_id="1" id="29"/>
+	</map>
+	<map>
+		<framework name="588" out_port_id="588"/>
+		<IR name="1241612419_const" out_port_id="1" id="196"/>
+	</map>
+	<map>
+		<framework name="455" out_port_id="455"/>
+		<IR name="Clip_91" out_port_id="1" id="239"/>
+	</map>
+	<map>
+		<framework name="411" out_port_id="411"/>
+		<IR name="Clip_62" out_port_id="1" id="165"/>
+	</map>
+	<map>
+		<framework name="563" out_port_id="563"/>
+		<IR name="Conv_60" out_port_id="2" id="160"/>
+	</map>
+	<map>
+		<framework name="362" out_port_id="362"/>
+		<IR name="Clip_30" out_port_id="1" id="82"/>
+	</map>
+	<map>
+		<framework name="570" out_port_id="570"/>
+		<IR name="1245612459_const" out_port_id="1" id="166"/>
+	</map>
+	<map>
+		<framework name="609" out_port_id="609"/>
+		<IR name="609/Output_0/Data__const" out_port_id="1" id="230"/>
+	</map>
+	<map>
+		<framework name="397" out_port_id="397"/>
+		<IR name="Clip_53" out_port_id="1" id="141"/>
+	</map>
+	<map>
+		<framework name="555" out_port_id="555"/>
+		<IR name="555/Output_0/Data__const" out_port_id="1" id="142"/>
+	</map>
+	<map>
+		<framework name="537" out_port_id="537"/>
+		<IR name="537/Output_0/Data__const" out_port_id="1" id="112"/>
+	</map>
+	<map>
+		<framework name="417" out_port_id="417"/>
+		<IR name="Add_66" out_port_id="2" id="175"/>
+	</map>
+	<map>
+		<framework name="603" out_port_id="603"/>
+		<IR name="603/Output_0/Data__const" out_port_id="1" id="220"/>
+	</map>
+	<map>
+		<framework name="498" out_port_id="498"/>
+		<IR name="1244412447_const" out_port_id="1" id="49"/>
+	</map>
+	<map>
+		<framework name="482" out_port_id="482"/>
+		<IR name="Conv_9" out_port_id="2" id="28"/>
+	</map>
+	<map>
+		<framework name="359" out_port_id="359"/>
+		<IR name="Clip_28" out_port_id="1" id="77"/>
+	</map>
+	<map>
+		<framework name="615" out_port_id="615"/>
+		<IR name="1242012423_const" out_port_id="1" id="240"/>
+	</map>
+	<map>
+		<framework name="500" out_port_id="500"/>
+		<IR name="Conv_20" out_port_id="2" id="57"/>
+	</map>
+	<map>
+		<framework name="612" out_port_id="612"/>
+		<IR name="612/Output_0/Data__const" out_port_id="1" id="235"/>
+	</map>
+	<map>
+		<framework name="394" out_port_id="394"/>
+		<IR name="Clip_51" out_port_id="1" id="136"/>
+	</map>
+	<map>
+		<framework name="414" out_port_id="414"/>
+		<IR name="Clip_64" out_port_id="1" id="170"/>
+	</map>
+	<map>
+		<framework name="356" out_port_id="356"/>
+		<IR name="Add_26" out_port_id="2" id="72"/>
+	</map>
+	<map>
+		<framework name="489" out_port_id="489"/>
+		<IR name="1239612399_const" out_port_id="1" id="34"/>
+	</map>
+	<map>
+		<framework name="350" out_port_id="350"/>
+		<IR name="Clip_22" out_port_id="1" id="62"/>
+	</map>
+	<map>
+		<framework name="480" out_port_id="480"/>
+		<IR name="1242812431_const" out_port_id="1" id="20"/>
+	</map>
+	<map>
+		<framework name="420" out_port_id="420"/>
+		<IR name="Clip_68" out_port_id="1" id="180"/>
+	</map>
+	<map>
+		<framework name="558" out_port_id="558"/>
+		<IR name="558/Output_0/Data__const" out_port_id="1" id="147"/>
+	</map>
+	<map>
+		<framework name="336" out_port_id="336"/>
+		<IR name="Clip_13" out_port_id="1" id="38"/>
+	</map>
+	<map>
+		<framework name="590" out_port_id="590"/>
+		<IR name="Conv_77" out_port_id="2" id="204"/>
+	</map>
+	<map>
+		<framework name="525" out_port_id="525"/>
+		<IR name="1242412427_const" out_port_id="1" id="93"/>
+	</map>
+	<map>
+		<framework name="474" out_port_id="474"/>
+		<IR name="474/Output_0/Data__const" out_port_id="1" id="11"/>
+	</map>
+	<map>
+		<framework name="471" out_port_id="471"/>
+		<IR name="1240012403_const" out_port_id="1" id="6"/>
+	</map>
+	<map>
+		<framework name="585" out_port_id="585"/>
+		<IR name="585/Output_0/Data__const" out_port_id="1" id="191"/>
+	</map>
+	<map>
+		<framework name="516" out_port_id="516"/>
+		<IR name="1244812451_const" out_port_id="1" id="78"/>
+	</map>
+	<map>
+		<framework name="423" out_port_id="423"/>
+		<IR name="Clip_70" out_port_id="1" id="185"/>
+	</map>
+	<map>
+		<framework name="491" out_port_id="491"/>
+		<IR name="Conv_14" out_port_id="2" id="42"/>
+	</map>
+	<map>
+		<framework name="606" out_port_id="606"/>
+		<IR name="1243212435_const" out_port_id="1" id="225"/>
+	</map>
+	<map>
+		<framework name="591" out_port_id="591"/>
+		<IR name="591/Output_0/Data__const" out_port_id="1" id="201"/>
+	</map>
+	<map>
+		<framework name="572" out_port_id="572"/>
+		<IR name="Conv_65" out_port_id="2" id="174"/>
+	</map>
+	<map>
+		<framework name="564" out_port_id="564"/>
+		<IR name="564/Output_0/Data__const" out_port_id="1" id="157"/>
+	</map>
+	<map>
+		<framework name="621" out_port_id="621"/>
+		<IR name="621/Output_0/Data__const" out_port_id="1" id="249"/>
+	</map>
+	<map>
+		<framework name="545" out_port_id="545"/>
+		<IR name="Conv_48" out_port_id="2" id="130"/>
+	</map>
+	<map>
+		<framework name="452" out_port_id="452"/>
+		<IR name="Add_89" out_port_id="2" id="234"/>
+	</map>
+	<map>
+		<framework name="522" out_port_id="522"/>
+		<IR name="522/Output_0/Data__const" out_port_id="1" id="88"/>
+	</map>
+	<map>
+		<framework name="540" out_port_id="540"/>
+		<IR name="540/Output_0/Data__const" out_port_id="1" id="117"/>
+	</map>
+	<map>
+		<framework name="483" out_port_id="483"/>
+		<IR name="483/Output_0/Data__const" out_port_id="1" id="25"/>
+	</map>
+	<map>
+		<framework name="output" out_port_id="output"/>
+		<IR name="output" out_port_id="2" id="272"/>
+	</map>
+	<map>
+		<framework name="443" out_port_id="443"/>
+		<IR name="Add_83" out_port_id="2" id="219"/>
+	</map>
+	<map>
+		<framework name="376" out_port_id="376"/>
+		<IR name="Clip_39" out_port_id="1" id="106"/>
+	</map>
+	<map>
+		<framework name="600" out_port_id="600"/>
+		<IR name="600/Output_0/Data__const" out_port_id="1" id="215"/>
+	</map>
+	<map>
+		<framework name="501" out_port_id="501"/>
+		<IR name="501/Output_0/Data__const" out_port_id="1" id="54"/>
+	</map>
+	<map>
+		<framework name="382" out_port_id="382"/>
+		<IR name="Add_43" out_port_id="2" id="116"/>
+	</map>
+	<map>
+		<framework name="432" out_port_id="432"/>
+		<IR name="Clip_76" out_port_id="1" id="200"/>
+	</map>
+	<map>
+		<framework name="509" out_port_id="509"/>
+		<IR name="Conv_25" out_port_id="2" id="71"/>
+	</map>
+	<map>
+		<framework name="527" out_port_id="527"/>
+		<IR name="Conv_37" out_port_id="2" id="101"/>
+	</map>
+	<map>
+		<framework name="458" out_port_id="458"/>
+		<IR name="Clip_93" out_port_id="1" id="244"/>
+	</map>
+	<map>
+		<framework name="classifier.1.weight" out_port_id="classifier.1.weight"/>
+		<IR name="classifier.1.weight/Output_0/Data__const" out_port_id="1" id="263"/>
+	</map>
+	<map>
+		<framework name="536" out_port_id="536"/>
+		<IR name="Conv_42" out_port_id="2" id="115"/>
+	</map>
+	<map>
+		<framework name="388" out_port_id="388"/>
+		<IR name="Clip_47" out_port_id="1" id="126"/>
+	</map>
+	<map>
+		<framework name="507" out_port_id="507"/>
+		<IR name="1240812411_const" out_port_id="1" id="63"/>
+	</map>
+	<map>
+		<framework name="579" out_port_id="579"/>
+		<IR name="1241212415_const" out_port_id="1" id="181"/>
+	</map>
+	<map>
+		<framework name="385" out_port_id="385"/>
+		<IR name="Clip_45" out_port_id="1" id="121"/>
+	</map>
+	<map>
+		<framework name="518" out_port_id="518"/>
+		<IR name="Conv_31" out_port_id="2" id="86"/>
+	</map>
+	<map>
+		<framework name="581" out_port_id="581"/>
+		<IR name="Conv_71" out_port_id="2" id="189"/>
+	</map>
+	<map>
+		<framework name="468" out_port_id="468"/>
+		<IR name="468/Output_0/Data__const" out_port_id="1" id="1"/>
+	</map>
+	<map>
+		<framework name="549" out_port_id="549"/>
+		<IR name="549/Output_0/Data__const" out_port_id="1" id="132"/>
+	</map>
+	<map>
+		<framework name="403" out_port_id="403"/>
+		<IR name="Clip_57" out_port_id="1" id="151"/>
+	</map>
+	<map>
+		<framework name="531" out_port_id="531"/>
+		<IR name="531/Output_0/Data__const" out_port_id="1" id="102"/>
+	</map>
+	<map>
+		<framework name="543" out_port_id="543"/>
+		<IR name="1245212455_const" out_port_id="1" id="122"/>
+	</map>
+	<map>
+		<framework name="406" out_port_id="406"/>
+		<IR name="Clip_59" out_port_id="1" id="156"/>
+	</map>
+	<map>
+		<framework name="473" out_port_id="473"/>
+		<IR name="Conv_4" out_port_id="2" id="14"/>
+	</map>
+	<map>
+		<framework name="328" out_port_id="328"/>
+		<IR name="Clip_8" out_port_id="1" id="24"/>
+	</map>
+	<map>
+		<framework name="617" out_port_id="617"/>
+		<IR name="Conv_94" out_port_id="2" id="248"/>
+	</map>
+	<map>
+		<framework name="513" out_port_id="513"/>
+		<IR name="513/Output_0/Data__const" out_port_id="1" id="73"/>
+	</map>
+	<map>
+		<framework name="371" out_port_id="371"/>
+		<IR name="Clip_36" out_port_id="1" id="97"/>
+	</map>
+	<map>
+		<framework name="519" out_port_id="519"/>
+		<IR name="519/Output_0/Data__const" out_port_id="1" id="83"/>
+	</map>
+	<map>
+		<framework name="333" out_port_id="333"/>
+		<IR name="Clip_11" out_port_id="1" id="33"/>
+	</map>
+	<map>
+		<framework name="504" out_port_id="504"/>
+		<IR name="504/Output_0/Data__const" out_port_id="1" id="58"/>
+	</map>
+	<map>
+		<framework name="561" out_port_id="561"/>
+		<IR name="1246012463_const" out_port_id="1" id="152"/>
+	</map>
+	<map>
+		<framework name="573" out_port_id="573"/>
+		<IR name="573/Output_0/Data__const" out_port_id="1" id="171"/>
+	</map>
+	<map>
+		<framework name="477" out_port_id="477"/>
+		<IR name="477/Output_0/Data__const" out_port_id="1" id="15"/>
+	</map>
+	<map>
+		<framework name="528" out_port_id="528"/>
+		<IR name="528/Output_0/Data__const" out_port_id="1" id="98"/>
+	</map>
+	<map>
+		<framework name="446" out_port_id="446"/>
+		<IR name="Clip_85" out_port_id="1" id="224"/>
+	</map>
+	<map>
+		<framework name="495" out_port_id="495"/>
+		<IR name="495/Output_0/Data__const" out_port_id="1" id="44"/>
+	</map>
+	<map>
+		<framework name="input" out_port_id="input"/>
+		<IR name="input" out_port_id="0" id="0"/>
+	</map>
+	<map>
+		<framework name="552" out_port_id="552"/>
+		<IR name="1244012443_const" out_port_id="1" id="137"/>
+	</map>
+	<map>
+		<framework name="368" out_port_id="368"/>
+		<IR name="Clip_34" out_port_id="1" id="92"/>
+	</map>
+	<map>
+		<framework name="599" out_port_id="599"/>
+		<IR name="Conv_82" out_port_id="2" id="218"/>
+	</map>
+	<map>
+		<framework name="492" out_port_id="492"/>
+		<IR name="492/Output_0/Data__const" out_port_id="1" id="39"/>
+	</map>
+	<map>
+		<framework name="608" out_port_id="608"/>
+		<IR name="Conv_88" out_port_id="2" id="233"/>
+	</map>
+	<map>
+		<framework name="353" out_port_id="353"/>
+		<IR name="Clip_24" out_port_id="1" id="67"/>
+	</map>
+	<map>
+		<framework name="317" out_port_id="317"/>
+		<IR name="Clip_1" out_port_id="1" id="5"/>
+	</map>
+</mapping>
