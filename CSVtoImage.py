@@ -1,6 +1,7 @@
 from PIL import Image
 
 import argparse
+from numpy.core.numeric import Infinity
 import pandas as pd
 import numpy as np
 import os
@@ -15,7 +16,7 @@ Creating basic function structure for data conversion.
     3. Find right pixel representation for selected data
     4. Repeat for every relevant collumn until image is created
 
-    One relation to pixel:
+    One relation to 2 pixels:
         [(flow duration[1. part],
         flow duration[2. part],  set trashhold to ???
         Flags binary [FIN,SYN,RST,PSH,ACK,URG])        
@@ -38,7 +39,6 @@ Creating basic function structure for data conversion.
  -c  --categories   None                Label output have categorical format
  -o  --output       Path                Path to output dir
  -i  --input        Path                Path to cvs file
-
 
 """
 def parserCheck():
@@ -78,7 +78,7 @@ def createLabelCat(labels):
 #-----------------------Mapping-----------------------
 #-----------------------------------------------------
 
-def decToBinSplit(value):
+def decToBinSplit16b(value):
     binnary = bin(value)
     dec1 = "0b"
     dec2 = "0b"
@@ -95,12 +95,46 @@ def decToBinSplit(value):
                 dec2 += binnary[len(binnary)-16+i]
     return [int(dec1,2),int(dec2,2)]
 
+def decToBinSplit24b(value):
+    binnary = bin(value)
+    dec1 = "0b"
+    dec2 = "0b"
+    dec3 = "0b"
+    for i in range(32):
+        if i <= 33-len(binnary):
+            if len(dec1) < 10:
+                dec1 += "0"
+            elif len(dec2) < 10:
+                dec2 += "0"
+            else:
+                dec3 += "0"
+        else:
+            if len(dec1) < 10:
+                dec1 += binnary[len(binnary)-32+i]
+            elif len(dec2) < 10:
+                dec2 += binnary[len(binnary)-32+i]
+            else:
+                dec3 += binnary[len(binnary)-32+i]
+    return [int(dec1,2),int(dec2,2),int(dec3,2)]
+#-----------------------------------------------------
+#---------------------Augmentation--------------------
+#-----------------------------------------------------
+
+def dataArgumentation(mode, picture):
+    return
+#-----------------------------------------------------
+#---------------------Segmetation---------------------
+#-----------------------------------------------------
+
+def dataSegmentation(mode, picture):
+    return
+
 #-----------------------------------------------------
 #--------------------Image Creation-------------------
 #-----------------------------------------------------
 
 def createPixel(CSVfile,row):
-    port = decToBinSplit(int(CSVfile["Dst Port"].values[row]))
+    port = decToBinSplit16b(int(CSVfile["Dst Port"].values[row]))
 
     fin = int(CSVfile["FIN Flag Cnt"].values[row])
     syn = int(CSVfile["SYN Flag Cnt"].values[row])
@@ -108,7 +142,7 @@ def createPixel(CSVfile,row):
     psh = int(CSVfile["PSH Flag Cnt"].values[row])
     ack = int(CSVfile["ACK Flag Cnt"].values[row])
     urg = int(CSVfile["URG Flag Cnt"].values[row])
-    cwe = int(CSVfile["CWE Flag Count"].values[row])
+    cwe = int(CSVfile["CWE Flag Count"].values[row]) 
     ece = int(CSVfile["ECE Flag Cnt"].values[row])
 
     flagValue = fin*(2**0)+syn*(2**1)+rst*(2**2)+psh*(2**3)+ack*(2**4)+urg*(2**5)+cwe*(2**6)+ece*(2**7)
@@ -126,8 +160,26 @@ def createPixel(CSVfile,row):
         flowDuration = 65535
     elif flowDuration < 0:
         flowDuration = 0
-    flowDuration = decToBinSplit(flowDuration)
-    return (flowDuration[0],flowDuration[1],flagValue),(port[0],port[1],packetSizeAverValue)
+    flowDuration = decToBinSplit16b(flowDuration)
+
+    flowIATMean = int(CSVfile["Flow IAT Mean"].values[row])
+    flowIATMean = flowIATMean//3
+    if flowIATMean > 16777215:
+        flowIATMean = 16777215
+    elif flowIATMean < 0:
+        flowIATMean = 0
+    flowIATMean = decToBinSplit24b(flowIATMean)
+
+    flowPackets = float(CSVfile["Flow Pkts/s"].values[row])
+    
+    if flowPackets > 16777.215:
+        flowPackets = 16777.215
+    elif flowPackets < 0:
+        flowPackets = 0
+    flowPackets = int(flowPackets*1000)
+    flowPackets = decToBinSplit24b(flowPackets)
+
+    return (flowDuration[0],flowDuration[1],flagValue),(port[0],port[1],packetSizeAverValue),(flowIATMean[0],flowIATMean[1],flowIATMean[2]),(flowPackets[0],flowPackets[1],flowPackets[2])
 
 def createPictures(CSVfile, width, height, flowNumber, imageNumber):
     pixels = []
@@ -138,18 +190,24 @@ def createPictures(CSVfile, width, height, flowNumber, imageNumber):
     for i in range(width*int(height//2)):
         flowRow = (flowNumber*width*height//4)+i
         if flowRow < len(CSVfile.index):
-            pixel1, pixel2 = createPixel(CSVfile,flowRow)
+            pixel1, pixel2,pixel3,pixel4 = createPixel(CSVfile,flowRow)
             if anomaly:
                 label = 1
             elif CSVfile["Label"].values[flowRow] != "Benign":
                 anomaly = True
         else:
-            pixel1, pixel2 = (0,0,0),(0,0,0)
+            pixel1, pixel2 = (0,0,0),(0,0,0),(0,0,0),(0,0,0)
         for i in range(4):
-                pixelRow.append(pixel1)
-                numberOfPixels +=1
+            pixelRow.append(pixel1)
+            numberOfPixels +=1
         for i in range(4):
             pixelRow.append(pixel2)
+            numberOfPixels +=1
+        for i in range(4):
+            pixelRow.append(pixel3)
+            numberOfPixels +=1
+        for i in range(4):
+            pixelRow.append(pixel4)
             numberOfPixels +=1
         if numberOfPixels == 224:
             numberOfPixels = 0
@@ -158,7 +216,7 @@ def createPictures(CSVfile, width, height, flowNumber, imageNumber):
             pixelRow = []
         
     array = np.array(pixels, dtype=np.uint8)
-    array = np.reshape(array,(height*4,width*4,3))
+    array = np.reshape(array,(height*4,width*8,3))
     
     new_image = Image.fromarray(array)
     file = "./Images/Anomaly"+str(imageNumber)+".png"
@@ -192,7 +250,7 @@ def main():
     rootPath = './Datasets/'
     imageNumber = 0
     labels = []
-    pictureWidth = 56
+    pictureWidth = 28
     pictureHeight = 56
     csvFiles = getFileList(rootPath)
     for file in csvFiles:
@@ -200,7 +258,7 @@ def main():
         print("[+] ==> "+ rootPath+file)
         dfSorted = csvSorting(df)
         numberOfFlows = len(dfSorted.index)  
-        for i in range((4*(numberOfFlows)//(pictureWidth*pictureHeight))+1):
+        for i in range((4*(numberOfFlows)//(pictureWidth*pictureHeight))-1):
             labels.append(createPictures(dfSorted,pictureWidth,pictureHeight,i,imageNumber))
             imageNumber += 1
     createLabelBin(labels)

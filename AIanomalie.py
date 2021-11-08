@@ -33,8 +33,8 @@ class AnomalyDataset(Dataset):
 
 inputSize = 224
 batchSize = 50
-learninigRate = 0.001
-epochs = 150
+learninigRate = 0.005
+epochs = 100
 
 normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                  std=[0.229, 0.224, 0.225])
@@ -48,7 +48,7 @@ transform = transforms.Compose([
 
 dataset = AnomalyDataset(csvFile="./Images/Labels.csv", rootDir="Images",transform=transform)
 
-trainDatasetLength = int(len(dataset)*0.7)
+trainDatasetLength = int(len(dataset)*0.8)
 
 trainSet, testSet = torch.utils.data.random_split(dataset,[trainDatasetLength,len(dataset)-trainDatasetLength]) #splitovanie datasetu na testovacie a trenovacie data
 
