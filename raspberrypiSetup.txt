@@ -1,0 +1,70 @@
+https://pemami4911.github.io/blog/2021/07/09/part-1-neural-compute-stick-2.html
+
+username:   pi
+password:   raspberry
+
+Install python libraries:
+    onnx
+    onnxruntime
+https://www.pyimagesearch.com/2019/04/08/openvino-opencv-and-movidius-ncs-on-the-raspberry-pi/
+
+
+Installing NCS on raspbian - commands:
+    sudo apt-get update
+    sudo apt-get upgrade
+    sudo apt-get install python3-pip
+    sudo apt-get install wget
+    sudo apt-get install cmake
+    sudo apt-get install libatlas-base-dev
+    sudo apt-get install protobuf-compiler libprotoc-dev
+    
+
+Getting and test model and NCS function - commands:
+    opencv-python
+    opencv
+    numpy
+    defusedxml
+    networkx
+    onnx
+    requirements from model_optimizer
+
+Install neural compute sdk
+    sudo nano /etc/dphys-swapfile
+            change from 100 to 1024
+    sudo /etc/init.d/dphys-swapfile restart
+    edit install.sh
+
+
+New Setup:
+    sudo apt-get update && sudo apt-get upgrade
+    sudo apt-get install wget
+    sudo apt-get install build-essential cmake pkg-config
+    sudo apt-get install libjpeg-dev libtiff5-dev libjasper-dev libpng-dev
+    sudo apt-get install libhdf5-dev libhdf5-serial-dev libhdf5-103
+    sudo apt-get install libqtgui4 libqtwebkit4 libqt4-test python3-pyqt5
+    sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev
+    sudo apt-get install libxvidcore-dev libx264-dev
+    sudo apt-get install libfontconfig1-dev libcairo2-dev
+    sudo apt-get install libatlas-base-dev
+    sudo apt-get install libjasper-dev
+    sudo apt-get install libgdk-pixbuf2.0-dev libpango1.0-dev
+    sudo apt-get install libgtk2.0-dev libgtk-3-dev
+    sudo apt-get install libatlas-base-dev gfortran
+    sudo apt-get install libhdf5-dev libhdf5-serial-dev libhdf5-103
+    sudo apt-get install libqtgui4 libqtwebkit4 libqt4-test python3-pyqt5
+    sudo apt-get install python3-dev
+    sudo apt-get install protobuf-compiler libprotoc-dev
+    sudo apt-get install libilmbase-dev libopenexr-dev libgstreamer1.0-dev
+    wget https://bootstrap.pypa.io/get-pip.py
+    sudo python3 get-pip.py
+    sudo rm -rf ~/.cache/pip
+    pip install opencv-contrib-python==4.1.0.25
+
+    sudo wget https://download.01.org/opencv/2021/openvinotoolkit/2021.2/l_openvino_toolkit_runtime_raspbian_p_2021.2.185.tgz
+    sudo mkdir -p /opt/intel/openvino
+    sudo tar -xf l_openvino_toolkit_runtime_raspbian_p_2021.2.185.tgz --strip 1 -C /opt/intel/openvino
+    rm -f l_openvino_toolkit_runtime_raspbian_p_2021.2.185.tgz
+    source /opt/intel/openvino/bin/setupvars.sh
+    echo "source /opt/intel/openvino/bin/setupvars.sh" >> ~/.bashrc
+    sudo usermod -a -G users "$(whoami)"
+    sh /opt/intel/openvino/install_dependencies/install_NCS_udev_rules.sh
