@@ -5,6 +5,7 @@ from numpy.core.numeric import Infinity
 import pandas as pd
 import numpy as np
 import os
+from os import path 
 from scipy.sparse.lil import _prepare_index_for_memoryview
 
 """
@@ -63,13 +64,31 @@ def parserCheck():
 """
     Needs to be in format: imageName, category
 """
-def createLabelBin(labels):
-    #cwd = os.getcwd()
-    #print(cwd)
-    #np.savetxt("Labels.csv",labels,delimiter=',')
+
+class Statistics:
+     
+    def __init__(self):
+        self.anomalyCount = 0
+        self.benignCount = 0
+          
+    def addAnomaly(self):
+        self.anomalyCount += 1
+      
+    def addBenign(self):
+        self.benignCount += 1
+
+    @staticmethod   
+    def getAnomaly(self):
+        return self.anomalyCount
+
+    @staticmethod   
+    def getBenign(self):
+        return self.benignCount   
+
+def createLabelBin(labels,dir):
     df = pd.DataFrame(labels)
     print("Creating labels")
-    df.to_csv('Images/Labels.csv',index=False)
+    df.to_csv(dir+'Labels.csv',index=False)
 
 def createLabelCat(labels):
     return
@@ -181,7 +200,7 @@ def createPixel(CSVfile,row):
 
     return (flowDuration[0],flowDuration[1],flagValue),(port[0],port[1],packetSizeAverValue),(flowIATMean[0],flowIATMean[1],flowIATMean[2]),(flowPackets[0],flowPackets[1],flowPackets[2])
 
-def createPictures(CSVfile, width, height, flowNumber, imageNumber):
+def createPictures(CSVfile, width, height, flowNumber, imageNumber,statistics,dir):
     pixels = []
     pixelRow = []
     numberOfPixels = 0
@@ -193,6 +212,7 @@ def createPictures(CSVfile, width, height, flowNumber, imageNumber):
             pixel1, pixel2,pixel3,pixel4 = createPixel(CSVfile,flowRow)
             if anomaly:
                 label = 1
+                
             elif CSVfile["Label"].values[flowRow] != "Benign":
                 anomaly = True
         else:
@@ -214,16 +234,21 @@ def createPictures(CSVfile, width, height, flowNumber, imageNumber):
             for i in range(4):
                 pixels.append(pixelRow)
             pixelRow = []
-        
+    if anomaly:
+        statistics.addBenign()
+    else:
+        statistics.addAnomaly()
+
     array = np.array(pixels, dtype=np.uint8)
     array = np.reshape(array,(height*4,width*8,3))
     
     new_image = Image.fromarray(array)
-    file = "./Images/Anomaly"+str(imageNumber)+".png"
+    file = dir + "Anomaly"+str(imageNumber)+".png"
     new_image = new_image.save(file)
 
     labels = ["Anomaly"+str(imageNumber)+".png",label]
-    print(file + " ==> "+str(label))    
+    if imageNumber%100 == 0:
+        print(file + " ==> "+str(label))    
     
     return labels
 
@@ -247,7 +272,10 @@ def getFileList(path):
 
 def main():
     #args = parserCheck()
+    separate = True
+    statistics = Statistics()
     rootPath = './Datasets/'
+    imagePath = './Images/'
     imageNumber = 0
     labels = []
     pictureWidth = 28
@@ -257,11 +285,34 @@ def main():
         df = pd.read_csv(rootPath+file)
         print("[+] ==> "+ rootPath+file)
         dfSorted = csvSorting(df)
+<<<<<<< Updated upstream
         numberOfFlows = len(dfSorted.index)  
         for i in range((4*(numberOfFlows)//(pictureWidth*pictureHeight))-1):
             labels.append(createPictures(dfSorted,pictureWidth,pictureHeight,i,imageNumber))
             imageNumber += 1
     createLabelBin(labels)
+=======
+        numberOfFlows = len(dfSorted.index) 
+        if separate:
+            labels = []
+            filename = file.split(".")[0]
+            imageFilePath = imagePath+filename+'/'
+            if not path.exists(imageFilePath):
+                os.mkdir(imageFilePath)
+            
+            for i in range((4*(numberOfFlows)//(pictureWidth*pictureHeight))-1):
+                labels.append(createPictures(dfSorted,pictureWidth,pictureHeight,i,imageNumber,statistics,imageFilePath))
+                imageNumber += 1
+            createLabelBin(labels,imageFilePath)
+        else:
+            for i in range((4*(numberOfFlows)//(pictureWidth*pictureHeight))-1):
+                labels.append(createPictures(dfSorted,pictureWidth,pictureHeight,i,imageNumber,statistics,imagePath))
+                imageNumber += 1
+    if not separate:
+        createLabelBin(labels,imagePath)
+    print("Anomaly: "+str(statistics.getAnomaly(statistics)))
+    print("Benign : "+str(statistics.getBenign(statistics)))
+>>>>>>> Stashed changes
 
 if __name__ == "__main__":
     main()

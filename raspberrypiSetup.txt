@@ -67,9 +67,9 @@ New Setup:
     source /opt/intel/openvino/bin/setupvars.sh
     echo "source /opt/intel/openvino/bin/setupvars.sh" >> ~/.bashrc
     sudo usermod -a -G users "$(whoami)"
-<<<<<<< Updated upstream
+
     sh /opt/intel/openvino/install_dependencies/install_NCS_udev_rules.sh
-=======
+
     sh /opt/intel/openvino/install_dependencies/install_NCS_udev_rules.sh
 
 
@@ -89,4 +89,4 @@ Spustenie AI:
     rq worker
     python3 taskGiver.py
     
->>>>>>> Stashed changes
+

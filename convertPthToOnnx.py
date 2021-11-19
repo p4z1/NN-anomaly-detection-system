@@ -9,11 +9,11 @@ model = torch.load("anomalie.pth")
 model.cuda()
 model.eval()
 
-<<<<<<< Updated upstream
+
 batch_size = 1
-=======
+
 batch_size = 50
->>>>>>> Stashed changes
+
 # Input to the model
 x = torch.randn(batch_size, 3, 224, 224, requires_grad=True)
 x = x.cuda()
@@ -22,11 +22,8 @@ torch_out = model(x)
 # Export the model
 torch.onnx.export(model,                     # model being run
                   x,                         # model input (or a tuple for multiple inputs)
-<<<<<<< Updated upstream
                   "anomalie.onnx",       # where to save the model (can be a file or file-like object)
-=======
                   "anomalie50.onnx",       # where to save the model (can be a file or file-like object)
->>>>>>> Stashed changes
                   export_params=True,        # store the trained parameter weights inside the model file
                   opset_version=10,          # the ONNX version to export the model to
                   do_constant_folding=True,  # whether to execute constant folding for optimization
@@ -35,17 +32,17 @@ torch.onnx.export(model,                     # model being run
                   dynamic_axes={'input' : {0 : 'batch_size'},    # variable length axes
                                 'output' : {0 : 'batch_size'}})
 
-<<<<<<< Updated upstream
+
 onnx_model = onnx.load("anomalie.onnx")
 onnx.checker.check_model(onnx_model)
 
 ort_session = onnxruntime.InferenceSession("anomalie.onnx")
-=======
+
 onnx_model = onnx.load("anomalie50.onnx")
 onnx.checker.check_model(onnx_model)
 
 ort_session = onnxruntime.InferenceSession("anomalie50.onnx")
->>>>>>> Stashed changes
+
 
 def to_numpy(tensor):
     return tensor.detach().cpu().numpy() if tensor.requires_grad else tensor.cpu().numpy()
