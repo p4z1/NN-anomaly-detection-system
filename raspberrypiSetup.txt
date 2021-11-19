@@ -67,4 +67,26 @@ New Setup:
     source /opt/intel/openvino/bin/setupvars.sh
     echo "source /opt/intel/openvino/bin/setupvars.sh" >> ~/.bashrc
     sudo usermod -a -G users "$(whoami)"
+<<<<<<< Updated upstream
     sh /opt/intel/openvino/install_dependencies/install_NCS_udev_rules.sh
+=======
+    sh /opt/intel/openvino/install_dependencies/install_NCS_udev_rules.sh
+
+
+    pip3 install flask redis rq
+    sudo apt-get install redis-server
+    pip3 install scikit-image
+    pip3 install https://github.com/Kashu7100/pytorch-armv7l/raw/main/torch-1.7.0a0-cp37-cp37m-linux_armv7l.whl
+    pip3 install https://github.com/Kashu7100/pytorch-armv7l/raw/main/torchvision-0.8.0a0%2B45f960c-cp37-cp37m-linux_armv7l.whl
+    sudo apt-get install libopenblas-dev
+
+
+
+Spustenie AI:
+
+    export FLASK_APP=queueExample.py
+    flask run --host=0.0.0.0
+    rq worker
+    python3 taskGiver.py
+    
+>>>>>>> Stashed changes
