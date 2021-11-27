@@ -13,7 +13,7 @@ import argparse
 
 def parserCheck():
     parser = argparse.ArgumentParser(description="Creating images for CNN")
-    parser.add_argument("-m","--mode", dest = "mode",metavar='',type=int, help="0 is live mode with csv files, 1 is debug mode with images")
+    parser.add_argument("-m","--mode", dest = "mode",metavar='',type=int, help="1 is live mode with csv files, 0 is debug mode with images")
     parser.add_argument("-c","--csv", dest = "csv",metavar='',type=str, help="Path to dir with csv files. Default ./csvFiles")
     parser.add_argument("-i","--images", dest = "images",metavar='',type=str, help="Path to dir with images. Default ./Images")
     parser.add_argument("-o", "--output", dest = "output",metavar='',type=str, help="Path to output dir. Default ./Checked")
