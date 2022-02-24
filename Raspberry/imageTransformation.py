@@ -1,37 +1,19 @@
-import config
-import random
-import config
 from PIL import Image
 import pandas as pd
 import numpy as np
 from torchvision import transforms
-import os
+import config
+import random
 import tqdm
-
-"""
-    -- init 
-        - width of image
-        - height of image
-        - image scale factor. (default is 4 -> 56x56 -> 224x224)
-        - directory with csv files
-
-    -- detection
-        input : csv name
-
-        return normalized image 
-
-    -- dataSetCreation
-        input : label mode
-"""
+import os
 
 class Transformation():
     def __init__(self):
         self.width = config.IMAGE_WIDTH // config.SCALE
         self.height = config.IMAGE_HEIGHT // config.SCALE
-        self._scaleMul = config.SCALE
-        self._rootDir = config.ROOT_DIRECTORY      
-        self._imagesDir = config.IMAGE_DIRECTORY
-        self._csvDir = config.CSV_DIRECTORY
+        self._scaleMul = config.SCALE      
+        self._imagesDir = os.path.join(config.ROOT_DIRECTORY,config.IMAGE_DIRECTORY)
+        self._csvDir = os.path.join(config.ROOT_DIRECTORY,config.CSV_DIRECTORY)
         if config.NUMBER_OF_ARGUMENTS == 4 or config.NUMBER_OF_ARGUMENTS == 8:
             self._pixelsPerFlow = config.NUMBER_OF_ARGUMENTS
         else:
@@ -41,15 +23,15 @@ class Transformation():
         if not os.path.exists(path):
             os.mkdir(path)
 
-    def _createLabelBin(self,labels, text):
+    def _createLabelBin(self,labels, fileName):
         df = pd.DataFrame(labels)
         print("Creating labels")
-        df.to_csv('Images/'+text+'.csv',index=False)
+        df.to_csv(os.path.join(self._imagesDir,fileName+'.csv'),index=False)
 
-    def _createLabelCat(self, labels, text):
+    def _createLabelCat(self, labels, fileName):
         df = pd.DataFrame(labels)
         print("Creating Cat labels")
-        df.to_csv('Images/'+text+'.csv',index=False)
+        df.to_csv(os.path.join(self._imagesDir,fileName+'.csv'),index=False)
 
     def _preprocessing(self, df):
         df['Timestamp'] = pd.to_datetime(df['Timestamp'], infer_datetime_format = True)
@@ -67,8 +49,6 @@ class Transformation():
         binnary = bin(value)[2:]
         while len(binnary) < 16:
             binnary = "0" + binnary
-        if len(binnary) > 16:
-            print(len(binnary))
 
         return [int("0b"+binnary[:8],2),int("0b"+binnary[8:16],2)]
 
@@ -103,13 +83,13 @@ class Transformation():
             for i in range(self._scaleMul):
                 pixelRow.append(pixel)
                 numberOfPixels +=1
-            if numberOfPixels == 224:
+            if numberOfPixels == self.width:
                 numberOfPixels = 0
                 for i in range(4):
                     pixels.append(pixelRow)
                 pixelRow = []
         array = np.array(pixels, dtype=np.uint8)
-        array = np.reshape(array,(224,224,3))
+        array = np.reshape(array,(config.IMAGE_HEIGHT,config.IMAGE_WIDTH,3))
         return array
 
     def _create4Pixels(self,CSVfile,row):
@@ -204,7 +184,7 @@ class Transformation():
         else:
             return pixels
 
-    def normalize(image):
+    def normalize(self,image):
         normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                     std=[0.229, 0.224, 0.225])
         transform = transforms.Compose([
@@ -215,7 +195,7 @@ class Transformation():
 
     def imageCreation(self, file):
         self._labelCreation = False
-        CSVfile = pd.read_csv(os.path.join(self._rootDir,self._csvDir,file))
+        CSVfile = pd.read_csv(os.path.join(self._csvDir,file))
         image = self._createPicture(CSVfile=CSVfile)
         image = self._imageScale(image)
 
@@ -227,23 +207,25 @@ class Transformation():
         labels = []
         labelsCat = []
         
-        self._existOrCreateDir(os.path.join(self._rootDir,self._imagesDir))
-        csvFiles = os.listdir(os.path.join(self._rootDir,self._csvDir)) 
+        self._existOrCreateDir(os.path.join(self._imagesDir))
+        csvFiles = os.listdir(os.path.join(self._csvDir)) 
 
         for file in csvFiles:
-            CSVfileRand = pd.read_csv(os.path.join(self._rootDir,self._csvDir,file))
+            CSVfileRand = pd.read_csv(os.path.join(self._csvDir,file))
             CSVfile = self._preprocessing(CSVfileRand)
+            
             numberOfFlows = len(CSVfile.index)
-            partialImages = self._pixelsPerFlow*((numberOfFlows*2)//(self.width*self.height))-1
-            progress = tqdm.tqdm(range(partialImages), f"Processing {file}.", unit="Images", unit_scale=True, unit_divisor=256)
-            for offset in range(partialImages):
+            partialImagesCount = self._pixelsPerFlow*((numberOfFlows*2)//(self.width*self.height))-1
+            
+            progress = tqdm.tqdm(range(partialImagesCount), f"Processing {file}.", unit="Images", unit_scale=True, unit_divisor=256)
+            for offset in range(partialImagesCount):
                 flowRow = offset*self.width*self.height//(self._pixelsPerFlow*2)
                 image, label, labelCat = self._createPicture(CSVfile, startRow = flowRow)
 
                 ## image argumentation
 
                 image = self._imageScale(image)
-                saveDir = os.path.join(self._rootDir,self._imagesDir,labelCat)
+                saveDir = os.path.join(self._imagesDir,labelCat)
                 self._existOrCreateDir(saveDir)
                 imageName = str(imageNumber)+".png"
                 imagePath = os.path.join(saveDir,imageName)
@@ -251,6 +233,7 @@ class Transformation():
 
                 labels.append([os.path.join(labelCat,imageName), 1 if label > 0 else 0])
                 labelsCat.append([os.path.join(labelCat,imageName),label])
+
                 imageNumber += 1
                 progress.update(1)
             progress.close()

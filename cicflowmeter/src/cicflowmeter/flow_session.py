@@ -1,22 +1,30 @@
+from collections import defaultdict
+from scapy.sessions import DefaultSession
 import csv
 import os
-from collections import defaultdict
-
+import pwd
+import grp
 import requests
-from scapy.sessions import DefaultSession
 
 from .features.context.packet_direction import PacketDirection
 from .features.context.packet_flow_key import get_packet_flow_key
 from .flow import Flow
 
 EXPIRED_UPDATE = 40
-MACHINE_LEARNING_API = "http://localhost:8000/predict"
+API_IP = "127.0.0.1"
+API_PORT = 5000
 
 
 class FlowSession(DefaultSession):
     """Creates a list of network flows."""
 
     def __init__(self, *args, **kwargs):
+        self.uid = pwd.getpwnam("root").pw_uid
+        self.gid = grp.getgrnam("sonda").gr_gid
+        self.maxLines = 784
+        #self.maxLines = 10
+        self.batchSize = 10
+        self.filesCreated = []
         self.flows = {}
         self.csv_line = 0
         self.flowID = 0
@@ -99,7 +107,7 @@ class FlowSession(DefaultSession):
         if self.packets_count % 100 == 0 or (
             flow.duration > 120 and self.output_mode == "flow"
         ):
-            print("Packet count: {}".format(self.packets_count))
+            #print("Packet count: {}".format(self.packets_count))
             self.garbage_collect(packet.time)
 
     def get_flows(self) -> list:
@@ -107,14 +115,18 @@ class FlowSession(DefaultSession):
 
     def garbage_collect(self, latest_time) -> None:
         # TODO: Garbage Collection / Feature Extraction should have a separate thread
-        print("Garbage Collection Began. Flows = {}".format(len(self.flows)))
-        output = open(self.csvDir+str(self.flowID)+".csv", "w")
-        csv_writer = csv.writer(output)
+        #print("Garbage Collection Began. Flows = {}".format(len(self.flows)))
+        #output = open(self.csvDir+str(self.flowID)+".csv", "w")
+        #csv_writer = csv.writer(output)
         keys = list(self.flows.keys())
         self.csv_line = 0
-        if len(self.flows) > 784:
+
+        if len(self.flows) > self.maxLines:
+            path = self.csvDir+str(self.flowID)+".csv"
+            output = open(path, "w")
+            csv_writer = csv.writer(output)
             for k in keys:
-                if self.csv_line >= 784:
+                if self.csv_line >= self.maxLines:
                     break
                 flow = self.flows.get(k)
 
@@ -126,12 +138,21 @@ class FlowSession(DefaultSession):
                 csv_writer.writerow(data.values())
                 self.csv_line += 1
                 del self.flows[k]
-                
+
+            self.filesCreated.append(str(self.flowID))
             self.flowID += 1
             self.csv_line = 0
             output.close()
+            os.chmod(path, 0o660)
+            os.chown(path,self.uid,self.gid)
 
-        print("Garbage Collection Finished. Flows = {}".format(len(self.flows)))
+        if len(self.filesCreated) == self.batchSize:
+            csvFiles = ','.join(self.filesCreated)
+            self.filesCreated = []
+            apiRequest = requests.get(f"http://{API_IP}:{API_PORT}/capture?csv={csvFiles}")
+            #print(apiRequest.status_code)       
+
+        #print("Garbage Collection Finished. Flows = {}".format(len(self.flows)))
 
 def generate_session_class(output_mode, output_file, url_model):
     return type(

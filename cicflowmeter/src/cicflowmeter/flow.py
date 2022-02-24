@@ -104,7 +104,7 @@ class Flow:
             #"fwd_pkts_s": packet_count.get_rate(PacketDirection.FORWARD),
             #"bwd_pkts_s": packet_count.get_rate(PacketDirection.REVERSE),
             # Count total packets by direction
-            #"tot_fwd_pkts": packet_count.get_total(PacketDirection.FORWARD),
+            "Tot Fwd Pkts": packet_count.get_total(PacketDirection.FORWARD),
             #"tot_bwd_pkts": packet_count.get_total(PacketDirection.REVERSE),
             # Statistical info obtained from Packet lengths
             #"totlen_fwd_pkts": packet_length.get_total(PacketDirection.FORWARD),
@@ -122,7 +122,7 @@ class Flow:
             #"pkt_len_mean": float(packet_length.get_mean()),
             #"pkt_len_std": float(packet_length.get_std()),
             #"pkt_len_var": float(packet_length.get_var()),
-            #"fwd_header_len": flow_bytes.get_forward_header_bytes(),
+            "Fwd Header Len": flow_bytes.get_forward_header_bytes(),
             #"bwd_header_len": flow_bytes.get_reverse_header_bytes(),
             #"fwd_seg_size_min": flow_bytes.get_min_forward_header_bytes(),
             #"fwd_act_data_pkts": packet_count.has_payload(PacketDirection.FORWARD),
@@ -134,12 +134,12 @@ class Flow:
             #"fwd_iat_tot": forward_iat["total"],
             #"fwd_iat_max": float(forward_iat["max"]),
             #"fwd_iat_min": float(forward_iat["min"]),
-            #"fwd_iat_mean": float(forward_iat["mean"]),
-            #"fwd_iat_std": float(forward_iat["std"]),
+            "Fwd IAT Mean": float(forward_iat["mean"]),
+            "Fwd IAT Std": float(forward_iat["std"]),
             #"bwd_iat_tot": float(backward_iat["total"]),
             #"bwd_iat_max": float(backward_iat["max"]),
             #"bwd_iat_min": float(backward_iat["min"]),
-            #"bwd_iat_mean": float(backward_iat["mean"]),
+            "Bwd IAT Mean": float(backward_iat["mean"]),
             #"bwd_iat_std": float(backward_iat["std"]),
             # Flags statistics
             #"fwd_psh_flags": flag_count.has_flag("PSH", PacketDirection.FORWARD),

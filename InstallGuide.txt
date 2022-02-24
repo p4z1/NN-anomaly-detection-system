@@ -1,0 +1,87 @@
+Dependencies:
+    python 3.7.3
+
+File Structure:
+    ~/sonda/    
+        - model/
+            - anomalie.bin
+            - anomalie.xml
+        - images/
+            - ... .png
+        - csvFiles/
+            - ... .csv  # Z cicflowmetra
+        - checked/
+            - ... .csv
+        - logs/
+            - ... .log  #Logy pre kazky den
+        - #app.py        # Flask server
+        - config.py     # Konfiguracne udaje
+        - #imageTransformation.py # Transformacia obrazkov
+        - netRB.py      # Vyhodnotenie obrazkov a vytvorenie logu / poslanie na dodatocne vyhodnotenie
+        - #taskGiver.py  # Vytvorenie obrazkov a poziadanie o vyhodnotenie
+        - watchdog.py   # Sledovanie volneho miesta a zalohovanie 
+            
+
+1. System installation and access
+    - 2021-05-07-raspios-buster-arm image version
+    - default login : pi
+    - default password : raspberry
+    - root login : root
+    - root password : raspberry
+    - sudo service ssh start - start ssh to service
+    - connect remotely via ssh
+
+2. Install important packages
+    - sudo addgroup sonda
+    - sudo usermod -a -G sonda pi  # je nutny reboot
+    - ifconfig eth0 promisc
+    - sudo apt-get -y update
+    - sudo apt-get -y upgrade
+    - -y install wget build-essential cmake pkg-config python3-dev python3-pip 
+    libjpeg-dev libtiff5-dev libjasper-dev libpng-dev libhdf5-dev libhdf5-serial-dev libhdf5-103
+    libqtgui4 libqtwebkit4 libqt4-test python3-pyqt5 libavcodec-dev libavformat-dev libswscale-dev 
+    libv4l-dev libxvidcore-dev libx264-dev libfontconfig1-dev libcairo2-dev libgdk-pixbuf2.0-dev 
+    libpango1.0-dev libgtk2.0-dev libgtk-3-dev libatlas-base-dev gfortran protobuf-compiler 
+    libprotoc-dev libilmbase-dev libopenexr-dev libgstreamer1.0-dev libpcap0.8 
+    libopenblas-dev redis-server tcpdump git
+
+3. Install virtualenvwrapper root ????
+    sudo pip3 install virtualenvwrapper
+    echo 'export WORKON_HOME=$HOME/.virtualenvs' >> ~/.profile
+    echo 'export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3' >> ~/.profile
+    echo 'source /usr/local/bin/virtualenvwrapper.sh' >> ~/.profile
+ 
+4. Install cicflowmeter !!!! root !!!!
+    pip3 install -r ./cicflowmeter/requirements.txt
+    cd cicflowmeter
+    python3 setup.py
+
+    cicflowmeter -i eth0 -c flows.csv
+
+5. run app.py
+    mkvirtualenv app
+    pip3 install numpy
+    pip3 install scikit-image==0.18.3
+    pip3 install pandas
+    pip3 install flask redis
+    pip3 install requests
+    pip3 install redis tqdm
+    pip3 install https://github.com/Kashu7100/pytorch-armv7l/raw/main/torch-1.7.0a0-cp37-cp37m-linux_armv7l.whl
+    pip3 install https://github.com/Kashu7100/pytorch-armv7l/raw/main/torchvision-0.8.0a0%2B45f960c-cp37-cp37m-linux_armv7l.whl
+
+    #openvino toolkit install  
+    wget https://download.01.org/opencv/2021/openvinotoolkit/2021.2/l_openvino_toolkit_runtime_raspbian_p_2021.2.185.tgz
+    sudo mkdir -p /opt/intel/openvino
+    sudo tar -xf l_openvino_toolkit_runtime_raspbian_p_2021.2.185.tgz --strip 1 -C /opt/intel/openvino
+    rm -f l_openvino_toolkit_runtime_raspbian_p_2021.2.185.tgz
+    source /opt/intel/openvino/bin/setupvars.sh
+    echo 'source /opt/intel/openvino/bin/setupvars.sh' >> ~/.profile
+    sudo usermod -a -G users "$(whoami)"
+    sh /opt/intel/openvino/install_dependencies/install_NCS_udev_rules.sh
+
+6. How it works
+    sudo ifconfig eth0 promisc
+    sudo cicflowmeter -i eth0 -c flows.csv &
+    workon app
+    export FLASK_APP=webApp.py
+    flask run --host=0.0.0.0
